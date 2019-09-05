@@ -1,0 +1,31 @@
+
+in main page:
+url: 
+page urls: >>> response.xpath('//div[@class="image-wrap"]/a/@href').extract()
+image urls:>>> response.xpath('//div[@class="image-wrap"]/a/img/@src').extract()
+next page url: >>> response.xpath('//a[@class="selected"]/following-sibling::a/@href').extract_first()
+
+to get to next page:
+>>> href = response.xpath('//a[@class="selected"]/following-sibling::a/@href').extract_first()
+>>> url = response.urljoin(href)
+>>> print(url)
+https://www.monrovia.com/plant-catalog/search/?start_page=3&cold_zone=2,3,4,5,6,7,8,9
+>>> 
+
+in individual pages:
+>>> response.xpath('//h1[@class="page-title"]/text()').extract() ==> ['Dwarf Burning Bush']
+>>> response.xpath('//div[@class="plant-main-right"]/div/p/text()').extract() ==> ['A sensational accent or natural hedge prized for its intense scarlet red fall coloring. The interesting, compact, mounded form displays attractive rich green leaves spring through summer. Exceptional when featured en masse, at the foreground of larger conifers or evergreen shrubs. Deciduous.', 'This plant is not available online.', 'Enter your email to be notified when it becomes available.']
+>>> response.xpath('//li//div[@class="data"]//a/text()').extract()
+['Full sun']
+>>> response.xpath('//li//div[@class="zone-data"]/a/text()').extract()
+['4 - 9']
+>>> response.xpath('//li//div[@class="label"]/text()').extract()
+['Light Needs', 'Water Needs', 'USDA Zone\n', '\n', '\n']
+>>> response.xpath('//li//div[@class="data"]/text()').extract()
+['\n', 'Water regularly - weekly, or more often in extreme heat.']
+>>> response.xpath('//span[@class="label"]/text()').extract()
+['\n', '\n', 'Watering Needs:', 'Botanical Pronunciation:', 'Plant type:', 'Deciduous/evergreen:', 'Growth rate:', 'Average landscape size:', 'Special features:', 'Foliage color:', 'Blooms:', 'Flower color:', 'Garden style', 'Design Ideas', 'Companion Plants']
+>>> response.xpath('//span[@class="left"]/text()').extract()
+['Water regularly - weekly, or more often in extreme heat.', 'yoo-ON-ih-mus a-LAY-tus kom-PAK-ta', 'Moderate', 'Moderate growing; reaches 6 to 8 ft. tall, 8 to 10 ft. wide.', ', ', ', ', ', ', 'Inconspicuous; prized for foliage.', ', ', 'Burning Bush is usually planted as a single specimen or in a grove. It can make a good, natural hedge with changes in every season. Use to brighten dark corners in architecture or in groves of coniferous evergreens to add brilliance and a spot of seasonal color.', 'Fothergilla (Fothergilla); Cranberry Bush (Viburnum); Potentilla (Potentilla); Spirea (Spiraea); Rose (Rosa)']
+>>> response.xpath('//span[@class="left"]/a/text()').extract()
+['Shrub', 'Deciduous', 'Bird Friendly', 'Dwarf Plant', 'Easy Care', 'Fall Color', 'Green', 'Green', 'Asian/Zen', 'Contemporary']
