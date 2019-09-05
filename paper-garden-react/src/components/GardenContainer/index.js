@@ -1,8 +1,12 @@
 import React from 'react'
+import ShowProject from '../ShowProject'
+import GardenGrid from '../GardenGrid'
 
-export default function GardenContainer(){
-
+export default function GardenContainer({children, project, dimensions}){
+    
     return(
-        <div>GardeContainer</div>
+        <div>
+            {project ? <ShowProject project={project}/> : <GardenGrid dimensions={dimensions}/>}
+        </div>
     )
 }

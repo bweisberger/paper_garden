@@ -25,7 +25,7 @@ function DrawGardenModal({makeGarden}){
 
     return ( 
         <div>
-            <Button variant='primary' onClick={handleShow}>
+            <Button variant='success' onClick={handleShow}>
                 Start a Garden
             </Button>
 
