@@ -2,7 +2,7 @@ import React from 'react'
 import Square from '../Square'
 import { useDrop } from 'react-dnd'
 import { ItemTypes } from '../Constants'
-import { movePlant } from '../GardenContainer'
+import { movePlant } from '../GardenFunctions'
 
 function SmartSquare({x, y, children}) {
     const [{isOver}, drop] = useDrop({

@@ -29,7 +29,7 @@ export default function MainContainer({plantPosition}){
                 <Row>
                     <Col>
                         {dimensions ? 
-                            <GardenContainer dimensions={dimensions} project={project} plantPosition={plantPosition}/> 
+                            <GardenContainer dimensions={dimensions} project={project} plantPositionProp={plantPosition}/> 
                             : 
                             null
                         }

@@ -10,24 +10,24 @@ function Plant(){
         }),
     })
     return (
-        <div
+        <svg
+            height= '4.5vw'
+            width = '4.5vw'
             ref={drag}
             style={{
                 opacity: isDragging? 0.3 : 1,
                 cursor: 'move',
             }}
         >
-            <svg height='100' width='100'>
                 <circle 
-                    cx='50' 
-                    cy='50' 
-                    r='40' 
+                    cx='2.25vw' 
+                    cy='2.25vw' 
+                    r='2vw' 
                     stroke='darkgreen' 
                     strokeWidth='3' 
                     fill='lightgreen'
                 />
-            </svg>
-        </div>
+        </svg>
     )
 }
 
