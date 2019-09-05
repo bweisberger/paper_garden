@@ -6,7 +6,7 @@ import MainNavbar from '../MainNavbar'
 import GardenContainer from '../GardenContainer'
 
 
-export default function MainContainer(){
+export default function MainContainer({plantPosition}){
     const [dimensions, setDimensions] = useState(null);
     const [project, setProject] = useState(null)
 
@@ -29,7 +29,7 @@ export default function MainContainer(){
                 <Row>
                     <Col>
                         {dimensions ? 
-                            <GardenContainer dimensions={dimensions} project={project}/> 
+                            <GardenContainer dimensions={dimensions} project={project} plantPosition={plantPosition}/> 
                             : 
                             null
                         }

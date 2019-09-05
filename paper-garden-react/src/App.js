@@ -2,10 +2,10 @@ import React from 'react';
 import MainContainer from './components/MainContainer';
 import './App.css';
 
-function App() {
+function App({plantPosition}) {
   return (
     <div className="App">
-      <MainContainer/>
+      <MainContainer plantPosition={plantPosition}/>
     </div>
   );
 }
