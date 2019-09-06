@@ -1,4 +1,4 @@
-#Welcome to Paper Garden!
+# Welcome to Paper Garden!
 This app is meant as tool for landscape architecture, or to design a garden. The home page features an opportunity for you to log in, or you can go ahead and start a new garden design by clicking the "Start a Garden" button. 
 
 Goals for tomorrow, September 7, 2019
