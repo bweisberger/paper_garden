@@ -3,11 +3,16 @@ import ShowProject from '../ShowProject'
 import GardenGrid from '../GardenGrid'
 
 
-export default function GardenContainer({children, project, dimensions, plantPosition}){
+export default function GardenContainer({
+    project,
+    // project: {name, last_updated, id},
+    dimensions, 
+    plantPosition}){
 
     return(
         <div>
-            {project ? <ShowProject project={project}/> : <GardenGrid dimensions={dimensions} plantPosition={plantPosition}/>}
+            {/* <GardenHeader projectId={id} projectName={name} lastSave={last_updated}/> */}
+            <GardenGrid project={project} dimensions={dimensions} plantPosition={plantPosition}/>
         </div>
     )
 }

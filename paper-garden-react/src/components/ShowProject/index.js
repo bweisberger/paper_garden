@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ShowProject({project}){
+export default function ShowProjectContainer({project}){
     return(
         <div>{project.name}</div>
     )

@@ -2,7 +2,7 @@ import React from 'react'
 import Square from '../Square'
 import { DndProvider } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
-import { moveKnight } from '../GardenFunctions'
+import { movePlant } from '../GardenFunctions'
 import SmartSquare from '../SmartSquare'
 import Plant from '../Plant'
 
@@ -10,6 +10,11 @@ import Plant from '../Plant'
 function renderSquare(i, plantPosition){
     const x = i % 15
     const y = Math.floor(i/15)
+    // const plantMap = [plants.map((plant)=>{
+    //     return(
+            
+    //     )
+    // ]})
     return (
         <div key={i} style={{width: '5vw', height: '5vw', zIndex: -1}}>
             <SmartSquare x={x} y={y}>
@@ -25,8 +30,10 @@ function renderPlant(x, y, [plantX, plantY]){
     }
 }
 
-export default function GardenGrid({dimensions, plantPosition}){
-    
+export default function GardenGrid({
+    dimensions: {length, width},
+    plantPosition}){
+    console.log(plantPosition, "<--plantPosition in GardenGrid")
     const squares = []
     for (let i = 0; i < 1000; i++){
         squares.push(renderSquare(i, plantPosition))
@@ -37,6 +44,7 @@ export default function GardenGrid({dimensions, plantPosition}){
             <div
                 style={{
                     zIndex: -1,
+                    position: 'relative',
                     width: '100%',
                     height: '100%',
                     display: 'flex',
@@ -44,8 +52,8 @@ export default function GardenGrid({dimensions, plantPosition}){
                 }}
             >
                 {squares}
-                Length: {dimensions.length}
-                Width: {dimensions.width}
+                Length: {length}
+                Width: {width}
             </div>
         </DndProvider>
         

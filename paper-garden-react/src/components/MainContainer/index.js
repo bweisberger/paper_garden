@@ -9,12 +9,10 @@ import GardenContainer from '../GardenContainer'
 export default function MainContainer({plantPosition}){
     const [dimensions, setDimensions] = useState(null);
     const [project, setProject] = useState(null)
-
-    function showProject(id){
-
-        const project = fetch('url'+id)
+    
+    const showProject = async (id)=> {
+        const project = await fetch('url'+id)
         setProject(project)
-        
     }
     
     useEffect(()=>{
@@ -29,7 +27,10 @@ export default function MainContainer({plantPosition}){
                 <Row>
                     <Col>
                         {dimensions ? 
-                            <GardenContainer dimensions={dimensions} project={project} plantPositionProp={plantPosition}/> 
+                            <GardenContainer 
+                                dimensions={dimensions} 
+                                project={project}
+                                plantPosition={plantPosition}/> 
                             : 
                             null
                         }
