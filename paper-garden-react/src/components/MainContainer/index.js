@@ -2,6 +2,8 @@ import React, { useEffect, useState }  from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 // import { string, object } from 'prop-types'
 import DrawGardenModal from '../DrawGardenModal'
+import Draggable from '../Draggable'
+import Circle from '../Circle'
 import MainNavbar from '../MainNavbar'
 import GardenContainer from '../GardenContainer'
 
@@ -21,30 +23,16 @@ export default function MainContainer({plantPosition}){
     })
     return(
         // {this.state.drawGardenModal : <DrawGardenModal/>, null}
-        <div>
-            <MainNavbar showProject={showProject}/>
-            <Container>
+        <div >
+            <MainNavbar style={{zIndex: '-1', position: 'relative'}}showProject={showProject}/>
+            <Container style={{zIndex: '-1', position: 'relative'}}>
                 <Row>
                     <Col>
-                        {dimensions ? 
-                            <GardenContainer 
-                                dimensions={dimensions} 
-                                project={project}
-                                plantPosition={plantPosition}/> 
-                            : 
-                            null
-                        }
-
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <DrawGardenModal 
-                            makeGarden={(length, width) => {
-                                console.log(length, "<--length in MainContainer", width, "<--width in MainContainer")
-                                setDimensions({length: length, width: width});   
-                            }
-                        }/>
+                        <GardenContainer 
+                            style={{zIndex: '0', position: 'relative'}}
+                            dimensions={dimensions} 
+                            project={project}
+                        /> 
                     </Col>
                 </Row>
             </Container>

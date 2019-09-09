@@ -10,12 +10,13 @@ const useInputValue = (initialState) => {
 }
 
 function DrawGardenModal({makeGarden}){
-    const length = useInputValue(0);
     const width = useInputValue(0);
+    const height = useInputValue(0);
     const [show, setShow] = useState(false);
-    const handleClose = () => {
-        console.log(length.val, "<--length.val in DrawGardenModal", width.val, "<--width.val in DrawGardenModal")
-        makeGarden(length.val, width.val)
+    const handleClose = (e) => {
+        e.preventDefault()
+        console.log(width.val, "<--width.val in DrawGardenModal", height.val, "<--height.val in DrawGardenModal")
+        makeGarden(width.val, height.val)
         setShow(false);
     }
     const handleCancel = () => {
@@ -24,13 +25,13 @@ function DrawGardenModal({makeGarden}){
     const handleShow = () => setShow(true);
 
     return ( 
-        <div>
+        <div className='draw-garden-modal'>
             <Button variant='success' onClick={handleShow}>
                 Start a Garden
             </Button>
 
             <Modal 
-                size='lg' 
+                size='sm' 
                 aria-labelledby='contained-modal-title-vcenter'
                 centered 
                 show={show} 
@@ -41,20 +42,30 @@ function DrawGardenModal({makeGarden}){
                 </Modal.Header>
                 <Modal.Body>
                     Set Your Garden's Dimensions
-                    <form>
-                        <br/><label>Length in feet</label><br/>
-                        <input type="text" placeholder="Enter number" {...length}/><br/>
+                    <form onSubmit={handleClose}>
                         <br/><label>Width in feet</label><br/>
                         <input type="text" placeholder="Enter number" {...width}/><br/>
+                        <br/><label>Height in feet</label><br/>
+                        <input type="text" placeholder="Enter number" {...height}/><br/>
+                        <br/>
+                        <Button 
+                            style={{}} 
+                            variant='secondary' 
+                            onClick={handleCancel}
+                        >
+                        Cancel
+                        </Button>
+                        <Button 
+                            type="submit" 
+                            variant='primary' 
+                            onClick={handleClose}
+                        >
+                            Save Changes
+                        </Button>
                     </form> 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant='secondary' onClick={handleCancel}>
-                        Cancel
-                    </Button>
-                    <Button variant='primary' onClick={handleClose}>
-                        Save Changes
-                    </Button>
+                    
                 </Modal.Footer>
             </Modal>
         </div>

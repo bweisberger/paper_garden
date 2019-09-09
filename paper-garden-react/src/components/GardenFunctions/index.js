@@ -1,4 +1,4 @@
-let plantPosition = [10, 10]
+let plantPosition = [0, 0]
 let observer = null
 
 function emitChange() {

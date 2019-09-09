@@ -4,7 +4,7 @@ import { useDrop } from 'react-dnd'
 import { ItemTypes } from '../Constants'
 import { movePlant } from '../GardenFunctions'
 
-function SmartSquare({x, y, children}) {
+function SmartSquare({size, x, y, children}) {
     const [{isOver}, drop] = useDrop({
         accept: ItemTypes.PLANT,
         drop: () => movePlant(x, y),
@@ -24,7 +24,7 @@ function SmartSquare({x, y, children}) {
                 // border: '1px solid thin tan'
             }}
         >
-            <Square>{children}</Square>
+            <Square size={size} >{children}</Square>
             {isOver && (
                 <div
                     style={{
