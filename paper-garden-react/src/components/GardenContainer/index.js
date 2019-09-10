@@ -4,7 +4,10 @@ import GardenGrid from '../GardenGrid'
 import GardenHeader from '../GardenHeader'
 import DrawGardenModal from '../DrawGardenModal'
 import Draggable from '../Draggable'
+import PlantModal from '../PlantModal'
 import { Container, Row, Col } from 'react-bootstrap'
+import { uniqueId } from 'lodash'
+// import FlashMessage from 'react-flash-message'
 
 
 const plantModel = {
@@ -12,46 +15,85 @@ const plantModel = {
     spread: 'width'
 }
 
-export default function GardenContainer({children}){
+function getBiggestSide(obj){
+    console.log(obj, 'object in getBiggestSide')
+    if (obj){
+        const {width, height} = obj
+        if (width > height){
+            return width
+        } else {
+            return height
+        }
+    } else {
+        return('did not get biggest side')
+    }
+
+}
+
+export default function GardenContainer(){
     //projectName = string
     const [projectName, setProject] = useState('Untitled')
     //dimensions = {width: x, height: y}
     const [dimensions, setDimensions] = useState(null)
     //plants = [{name: string, spread: int}]
     const [plantData, addPlantData] = useState(null)
-    const [plantDivs, addPlantDiv] = useState(null)
-    
-    
+    //plantDivs are draggable elements, see below 'newPlantDiv'
+    const [plantDivs, setPlantDivs] = useState(null)
+    //generate ids for plandDivs
+    const [id] = useState(() => uniqueId())
+
+    function removePlant(plantId, oldPlantDivs=plantDivs){
+        const plantsArray = [...oldPlantDivs]
+        for(let i = 0; i < plantsArray.length; i++){
+            if(plantsArray[i].key == plantId){
+                plantsArray.splice(i, 1)
+                setPlantDivs([...plantsArray])
+                return
+            }
+        }
+    }
 
     useEffect(()=>{
-        const addNewPlant = (plantData) => {
+        const addNewPlant = (plantData, dimensions, id, plantDivs) => {
             if(plantData){
                 console.log(plantData, "<--plantData in GardenContainer")
-                const {spread, name} = plantData[0]
+                console.log(dimensions, "<---dimensions in GardenContainer")
+                const longEdge = getBiggestSide(dimensions)
+                console.log(longEdge)
+                let {spread, name} = plantData[0]
+                if (longEdge >= spread){
+                    spread = (spread/longEdge)*70
+                } 
+                else {
+                    console.log('plant too big!')
+                    return
+                }
                 const newPlantDiv = 
-                        <Draggable>
-                            <div style={{
+                        <Draggable key={id}>
+                            <div 
+                            style={{
                                 height:`${spread}vh`, 
                                 width:`${spread}vh`, 
                                 background:'lightgreen', 
                                 border:'2px green solid', 
                                 borderRadius:'50%'}}
                             >
-                                {name}
+                                <PlantModal name={name} id={id} removePlant={removePlant}/>
                             </div>
                         </Draggable> 
                 if(plantDivs){
-                    addPlantDiv([...plantDivs, newPlantDiv])
+                    setPlantDivs([...plantDivs, newPlantDiv])
                 }   else{
-                    addPlantDiv([newPlantDiv])
+                    setPlantDivs([newPlantDiv])
                 }
                 console.log(plantDivs, "<--plants");
             } else {
                 return
             }    
         }
-        addNewPlant(plantData) 
-    }, [plantData])
+        // console.log(dimensions, "<--dimensions at the bottom of useEffect, gardenContainer")
+        addNewPlant(plantData, dimensions, id) 
+    }, [plantData, dimensions, id])
     
     return(
         <Container className="garden-box-container">

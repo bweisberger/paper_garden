@@ -29,7 +29,7 @@ function Login({handleLogin}){
 
     return (
         <div>
-            <a onClick={handleShow}>Login</a>
+            <div className='login-link' onClick={handleShow}>Login</div>
 
             <Modal
                 size='sm'

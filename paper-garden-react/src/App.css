@@ -11,3 +11,13 @@
   left: 47%;
   /* bottom: 80%; */
 }
+
+.profile-link, .login-link, .project-name{
+  color: darkgreen;
+  text-decoration: underline;
+
+}
+
+.profile-link:hover, .login-link:hover, .project-name:hover{
+  color: olivedrab;
+}

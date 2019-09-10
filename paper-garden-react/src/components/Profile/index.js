@@ -21,7 +21,7 @@ export default function Profile({user, showProject}){
     }, [])
     return(
         <div>
-            <a onClick={handleShow}>{user.name}</a>
+            <div className='profile-link' onClick={handleShow}>{user.name}</div>
             <Modal
                 size='md'
                 show={show}

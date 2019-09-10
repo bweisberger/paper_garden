@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import AddPlantModal from '../AddPlantModal'
+import SaveProjectModal from '../SaveProjectModal'
 
 
 export default function GardenHeader(
@@ -14,7 +15,7 @@ export default function GardenHeader(
     return(
         <>
             <Col>
-                {projectName} 
+                <SaveProjectModal projectName={projectName} setProject={setProject}/>
             </Col>
             <Col xs={6}/>
             <Col>
