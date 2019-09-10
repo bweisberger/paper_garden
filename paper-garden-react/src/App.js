@@ -6,7 +6,7 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App" style={{zIndex: '-5', position: 'relative'}}>
+    <div className="App" >
       <MainContainer/>
     </div>
   );

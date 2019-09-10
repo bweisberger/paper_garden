@@ -15,9 +15,13 @@ function DrawGardenModal({makeGarden}){
     const [show, setShow] = useState(false);
     const handleClose = (e) => {
         e.preventDefault()
-        console.log(width.val, "<--width.val in DrawGardenModal", height.val, "<--height.val in DrawGardenModal")
-        makeGarden(width.val, height.val)
-        setShow(false);
+        if(width.val && height.val){
+            console.log(width.val, "<--width.val in DrawGardenModal", height.val, "<--height.val in DrawGardenModal")
+            makeGarden(width.val, height.val)
+            setShow(false);
+        } else {
+            console.log(width.val, "<---width.val in DrawGardenModal", ' (did not makeGarden)')
+        }
     }
     const handleCancel = () => {
         setShow(false);
@@ -64,9 +68,6 @@ function DrawGardenModal({makeGarden}){
                         </Button>
                     </form> 
                 </Modal.Body>
-                <Modal.Footer>
-                    
-                </Modal.Footer>
             </Modal>
         </div>
     )

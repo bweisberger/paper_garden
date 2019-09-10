@@ -5,22 +5,23 @@ import AddPlantModal from '../AddPlantModal'
 
 export default function GardenHeader(
     {
-    plants, 
-    setPlants, 
+    plantData,
+    addPlantData, 
     projectName, 
     setProject
     })
 {
     return(
-        <Row>
+        <>
             <Col>
                 {projectName} 
             </Col>
             <Col xs={6}/>
             <Col>
-                <AddPlantModal/>
+                <AddPlantModal plantData={plantData} addPlantData={addPlantData}/>
             </Col>
-        </Row>
+        </>
+            
         
 
     )

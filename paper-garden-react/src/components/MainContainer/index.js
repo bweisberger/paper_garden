@@ -24,12 +24,11 @@ export default function MainContainer({plantPosition}){
     return(
         // {this.state.drawGardenModal : <DrawGardenModal/>, null}
         <div >
-            <MainNavbar style={{zIndex: '-1', position: 'relative'}}showProject={showProject}/>
-            <Container style={{zIndex: '-1', position: 'relative'}}>
+            <MainNavbar showProject={showProject}/>
+            <Container >
                 <Row>
                     <Col>
                         <GardenContainer 
-                            style={{zIndex: '0', position: 'relative'}}
                             dimensions={dimensions} 
                             project={project}
                         /> 
