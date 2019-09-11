@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
+// import db from '../../firebase'
 // import { Link } from 'react-router-dom'
 
-export default function SaveProjectModal({projectName, setProject}){
+export default function SaveProjectModal({projectName, setProject, saveProject}){
     const [show, setShow] = useState(false);
     const [name, setName] = useState('')
     const handleClose = (e) => {
         if(e){
             e.preventDefault()
         }
-        setProject(name);
+        if(name){
+            setProject(name);
+            saveProject();
+        }
         setShow(false);
     }
     const handleChange = (e) => {

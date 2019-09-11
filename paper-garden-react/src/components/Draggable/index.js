@@ -70,9 +70,7 @@ export default class Draggable extends React.Component {
         isDragging: false
       },
       () => {
-        if (this.props.onDragEnd) {
-          this.props.onDragEnd();
-        }
+          this.props.setPlantPosition({x: this.state.translateX, y: this.state.translateY});
       }
     );
   };

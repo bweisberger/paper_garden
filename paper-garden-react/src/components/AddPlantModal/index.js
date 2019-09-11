@@ -1,5 +1,6 @@
     import React, {useState} from 'react'
     import { Modal, Button } from 'react-bootstrap'
+    import { uniqueId } from 'lodash'
 
     // const useInputValue = (initialState) => {
     //     const [val, setVal] = useState(initialState)
@@ -11,6 +12,7 @@
     
     export default function AddPlantModal({plantData, addPlantData}){
         // console.log(plants, '<--plants in AddPlantModal')
+        const [id] = useState(()=>uniqueId())
         const [name, setName] = useState('');
         const [spread, setSpread] = useState(0);
         const [show, setShow] = useState(false);
@@ -20,15 +22,15 @@
             }
             if(name && spread){
                 if(plantData){
-                    addPlantData([{name: name, spread: spread}, ...plantData])
+                    addPlantData([{name: name, spread: spread, id: id, position: {x: 0, y: 0}}, ...plantData])
                     setShow(false);  
                 } else {
-                    addPlantData([{name: name, spread: spread}])
+                    addPlantData([{name: name, spread: spread, id: id, position: {x: 0, y: 0}}])
                     setShow(false);
                 }  
                  
             } else {
-                console.log('(did not addPlant)')
+                console.log('(did not addPlantData)')
                 setShow(false);
             } 
         }

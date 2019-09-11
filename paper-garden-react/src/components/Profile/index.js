@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import db, { auth, provider } from '../../firebase.js'
 import ProjectList from '../ProjectList'
 
-export default function Profile({user, showProject}){
+export default function Profile({user, showProject, setUser}){
     const [show, setShow] = useState(false);
     const [projects, setProjects] = useState([])
     const handleClose = () => setShow(false);
@@ -15,24 +16,37 @@ export default function Profile({user, showProject}){
         // const projects = fetch('url'+name);
     }
 
+    function handleLogout() {
+        auth.signOut()
+        .then(()=>{
+            setUser(null)
+        })
+    }
+
     useEffect(()=>{
         // console.log(user.name, 'user.val in profile useEffect')
-        setProjects([fetchUserProjects(user.name), ...projects])
+        setProjects([fetchUserProjects(user.displayName), ...projects])
     }, [])
     return(
         <div>
-            <div className='profile-link' onClick={handleShow}>{user.name}</div>
+            <div className='profile-link' onClick={handleShow}>
+                <div className='profile-img-wrapper'>
+                    <img className='profile-img' src={user.photoURL}/>
+                </div>
+            </div>
+            
             <Modal
                 size='md'
                 show={show}
                 onHide={handleClose}
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{user.name}'s Profile</Modal.Title>
+                    <Modal.Title>{user.displayName}'s Profile</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <ProjectList showProject={showProject} projects={projects}/>
                 </Modal.Body>
+                <Button onClick={handleLogout}>Logout</Button>
             </Modal>
         </div>
     )

@@ -9,13 +9,14 @@ export default function GardenHeader(
     plantData,
     addPlantData, 
     projectName, 
-    setProject
+    setProject,
+    saveProject,
     })
 {
     return(
         <>
             <Col>
-                <SaveProjectModal projectName={projectName} setProject={setProject}/>
+                <SaveProjectModal projectName={projectName} setProject={setProject} saveProject={saveProject}/>
             </Col>
             <Col xs={6}/>
             <Col>

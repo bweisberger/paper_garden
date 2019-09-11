@@ -7,6 +7,7 @@ import Draggable from '../Draggable'
 import PlantModal from '../PlantModal'
 import { Container, Row, Col } from 'react-bootstrap'
 import { uniqueId } from 'lodash'
+import db from '../../firebase'
 // import FlashMessage from 'react-flash-message'
 
 
@@ -18,7 +19,10 @@ const plantModel = {
 function getBiggestSide(obj){
     console.log(obj, 'object in getBiggestSide')
     if (obj){
-        const {width, height} = obj
+        let {width, height} = obj
+        width = parseInt(width)
+        height = parseInt(height)
+        // console.log(typeof(width), typeof(height), 'types of width and height in getBiggestSide')
         if (width > height){
             return width
         } else {
@@ -31,36 +35,58 @@ function getBiggestSide(obj){
 }
 
 export default function GardenContainer(){
+
     //projectName = string
     const [projectName, setProject] = useState('Untitled')
+
     //dimensions = {width: x, height: y}
     const [dimensions, setDimensions] = useState(null)
-    //plants = [{name: string, spread: int}]
+
+    //plantData = [{name: string, spread: int, position: {x: num, y: num}]
     const [plantData, addPlantData] = useState(null)
+
     //plantDivs are draggable elements, see below 'newPlantDiv'
     const [plantDivs, setPlantDivs] = useState(null)
     //generate ids for plandDivs
-    const [id] = useState(() => uniqueId())
-
-    function removePlant(plantId, oldPlantDivs=plantDivs){
-        const plantsArray = [...oldPlantDivs]
-        for(let i = 0; i < plantsArray.length; i++){
-            if(plantsArray[i].key == plantId){
-                plantsArray.splice(i, 1)
-                setPlantDivs([...plantsArray])
-                return
-            }
-        }
+    // const [id] = useState(() => uniqueId())
+    const makeGarden = (gardenWidth, gardenHeight) => {
+        console.log(gardenWidth, "<--width in GardenContainer", gardenHeight, "<--height in GardenContainer")
+        setDimensions({width: gardenWidth, height: gardenHeight});
     }
 
+    const setPlantPosition = (position) => {
+        return
+            // fetch call to firebase to change position
+    }
+
+    const saveProject = () => {
+        const project = {
+            name: projectName,
+            dimensions: dimensions,
+            plantData: plantData,
+            // plants: plantDivs
+        }
+        db.collection('projects').add(project)
+        .then(function(docRef) {
+            console.log('Document written with ID: ', docRef.id);
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error)
+        })
+    }
+
+
     useEffect(()=>{
-        const addNewPlant = (plantData, dimensions, id, plantDivs) => {
+        const addNewPlantDiv = (plantData, dimensions, plantDivs, setPlantPosition) => {
+
             if(plantData){
                 console.log(plantData, "<--plantData in GardenContainer")
                 console.log(dimensions, "<---dimensions in GardenContainer")
                 const longEdge = getBiggestSide(dimensions)
-                console.log(longEdge)
-                let {spread, name} = plantData[0]
+                console.log(typeof(longEdge), "longEdge")
+                let {spread, name, id} = plantData[0]
+                console.log(typeof(spread), "spread in addNewPlantDiv")
+                console.log(parseInt(longEdge) >= parseInt(spread), "boolean check")
                 if (longEdge >= spread){
                     spread = (spread/longEdge)*70
                 } 
@@ -68,8 +94,9 @@ export default function GardenContainer(){
                     console.log('plant too big!')
                     return
                 }
+                //make new plant Draggable
                 const newPlantDiv = 
-                        <Draggable key={id}>
+                        <Draggable key={id} setPlantPosition={setPlantPosition}>
                             <div 
                             style={{
                                 height:`${spread}vh`, 
@@ -78,7 +105,7 @@ export default function GardenContainer(){
                                 border:'2px green solid', 
                                 borderRadius:'50%'}}
                             >
-                                <PlantModal name={name} id={id} removePlant={removePlant}/>
+                                <PlantModal name={name} id={id}/>
                             </div>
                         </Draggable> 
                 if(plantDivs){
@@ -92,14 +119,38 @@ export default function GardenContainer(){
             }    
         }
         // console.log(dimensions, "<--dimensions at the bottom of useEffect, gardenContainer")
-        addNewPlant(plantData, dimensions, id) 
-    }, [plantData, dimensions, id])
+        addNewPlantDiv(plantData, dimensions, plantDivs, setPlantPosition) 
+        console.log(plantData, "plantData in useEffect")
+    }, [plantData, dimensions])
+
+    // function removePlant(plantId, oldPlantData=plantData, oldPlantDivs=plantDivs){
+    //     if(oldPlantData){
+    //         const plantDataArray = [...oldPlantData]
+    //         for(let i = 0; i < plantDataArray.length; i++){
+    //             if(plantDataArray[i].id == plantId){
+    //                 plantDataArray.splice(i, 1)
+    //                 addPlantData([...plantDataArray])
+    //             }
+    //         }
+    //     }
+
+    //     if(oldPlantDivs){
+    //         const plantDivArray = [...oldPlantDivs]
+    //         for(let i = 0; i < plantDivArray.length; i++){
+    //             if(plantDivArray[i].key == plantId){
+    //                 plantDivArray.splice(i, 1)
+    //                 setPlantDivs([...plantDivArray])
+    //             }
+    //         }
+    //     }
+    //     return
+    // }
     
     return(
         <Container className="garden-box-container">
             {dimensions ?
                 <Row className='garden-box' >
-                    <GardenHeader addPlantData={addPlantData} setProject={setProject} projectName={projectName}/>
+                    <GardenHeader addPlantData={addPlantData} saveProject={saveProject} setProject={setProject} projectName={projectName}/>
                     <GardenGrid project={projectName} dimensions={dimensions}/>
                     {plantDivs ? plantDivs : null}
                 </Row>
@@ -108,13 +159,7 @@ export default function GardenContainer(){
             }
                
             <Row className='draw-garden-container'>
-                <DrawGardenModal 
-                    makeGarden={(gardenWidth, gardenHeight) => {
-                        console.log(gardenWidth, "<--width in GardenContainer", gardenHeight, "<--height in GardenContainer")
-                        setDimensions({width: gardenWidth, height: gardenHeight});   
-                        }
-                    }
-                />
+                <DrawGardenModal makeGarden={makeGarden}/>
             </Row>
             
         </Container>        
