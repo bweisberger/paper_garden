@@ -45,7 +45,7 @@ export default function GardenContainer() {
     setDimensions({ width: gardenWidth, height: gardenHeight });
   };
 
-  const addNewPlantDiv = (
+  const updatePlantDivs = (
     plantData,
     dimensions,
     plantDivs,
@@ -111,7 +111,7 @@ export default function GardenContainer() {
   };
 
   useEffect(() => {
-    addNewPlantDiv(plantData, dimensions, plantDivs, setPlantPosition);
+    updatePlantDivs(plantData, dimensions, plantDivs, setPlantPosition);
   }, [plantData, dimensions]);
 
   function removePlant(
