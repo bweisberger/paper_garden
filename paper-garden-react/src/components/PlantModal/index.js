@@ -9,7 +9,7 @@ export default function PlantModal({name, id, removePlant}){
         if(e){
             e.preventDefault()
         }
-        // removePlant(id) 
+        removePlant(id) 
         setShow(false)
     }
     const handleCancel = () => setShow(false);
